@@ -65,4 +65,8 @@ def allcases(request):
 @login_required
 def closedcases(request):
     template_name = "./closedcases.html"
-    return render(request, template_name)
+    cases = Case.objects.filter(user=request.user).filter(closed=True)
+    context = {
+        "cases":cases
+    }
+    return render(request, template_name, context)
