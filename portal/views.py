@@ -23,12 +23,44 @@ def dashboard(request):
 @login_required
 def report(request):
     template_name = "./report.html"
-    return render(request, template_name)
+    total = Case.objects.filter(user=request.user)
+    active = total.filter(closed=False)
+    resolved = total.filter(closed=True)
+    # pending = total.filter(status="p")
+
+    context = {
+        "active":active.count(),
+        "resolved":resolved.count(),
+        "pending": active.count(),
+        "total": total.count(),
+        "categories": Category.objects.all(),
+        "msg": False
+    }
+    if request.method == "POST":
+        category = request.POST.get("category")
+        message = request.POST.get("message")
+        user = request.user
+        categories = Category.objects.filter(name=category)
+        if categories.exists():
+            case = Case.objects.create(user=user, category=categories.last(), description=message)
+            context["active"] += 1
+            context["total"] += 1
+            context["success"] = True
+        else:
+            context["success"] = False
+            context["error"] = "Please select category"
+        context["msg"] = True
+        return render(request, template_name, context)
+    return render(request, template_name, context)
 
 @login_required
 def allcases(request):
     template_name = "./allcases.html"
-    return render(request, template_name)
+    cases = Case.objects.filter(user=request.user).order_by("-pk")
+    context = {
+        "cases":cases
+    }
+    return render(request, template_name, context)
 
 @login_required
 def closedcases(request):

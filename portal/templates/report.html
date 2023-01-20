@@ -25,7 +25,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Total Incidences</span>
-                            <span class="info-box-number">20</span>
+                            <span class="info-box-number">{{total}}</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -38,7 +38,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Active Cases</span>
-                            <span class="info-box-number">20</span>
+                            <span class="info-box-number">{{active}}</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -55,7 +55,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Resolved</span>
-                            <span class="info-box-number">20</span>
+                            <span class="info-box-number">{{resolved}}</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -68,7 +68,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">New Reports</span>
-                            <span class="info-box-number">20</span>
+                            <span class="info-box-number">{{active}}</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -81,8 +81,19 @@
 
             <!-- Main row -->
             <div class="col-lg-8 mt-15 mt-lg-0 " style=" width: 100%; padding-top: 80px">
-
-                <form action="../controllers/save_incident.php" method="post" role="form" class="php-email-form" style=" width: 70%; margin: auto">
+                {% if msg %}
+                <div class="my-3">
+                    <!-- <div class="loading">Loading</div> -->
+                    {% if success%}
+                    <div class="alert alert-success sent-message">Your message has been sent. Action will be taken ASAP. Thank you!</div>
+                    
+                    {% else %}
+                    <div class="alert alert-danger error-message">{{error}}</div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                <form action="" method="post" role="form" class="php-email-form" style=" width: 70%; margin: auto">
+                    {% csrf_token %}
                     <div class="row">
                         <div class="col-md-6 form-group">
                             <input type="text" name="name" class="form-control" id="name" value="{{request.user.first_name}}" style="padding :20px; font-size: 18px">
@@ -99,13 +110,15 @@
                         <input type="text" class="form-control" name="phone" id="phone" value="071233555" style="padding :20px; font-size: 18px">
                     </div>
                     <div class="form-group mt-3">
-                        <input type="text" class="form-control" name="address" id="address" placeholder="Address" style="padding :20px; font-size: 18px" required>
+                        <input type="text" class="form-control" name="address" id="address" placeholder="Address" style="padding :20px; font-size: 18px" value="{{request.user.address}}" required>
                     </div>
                     <div class="form-group mt-3">
                         <select class="form-select" name="category" aria-label="Default select example" style="padding :10px; font-size: 18px">
                             <option selected>----Select Incident Category -----</option>
-                            <option value="1">Domestic Violence</option>
-                            <option value="2">Child Abuse</option>
+                            {%for category in categories%}
+                                <option value="{{category.name}}">{{category.name}}</option>
+                            {% endfor %}
+                            <!-- <option value="2">Child Abuse</option> -->
 
                         </select>
                     </div>
@@ -113,11 +126,7 @@
                         <textarea class="form-control" name="message" rows="5" placeholder="Message" style="padding :20px; font-size: 18px" required></textarea>
                     </div>
 
-                    <div class="my-3">
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your message has been sent. Action will be taken ASAP. Thank you!</div>
-                    </div>
+                    
                     <div class="text-center"><button type="submit" style="padding :20px; font-size: 18px; border-radius:5px ">Send Message</button></div>
                 </form>
 

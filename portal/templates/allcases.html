@@ -30,7 +30,7 @@
                                 <tr>
                                     <th>Case ID</th>
                                     <th>Date</th>
-                                    <th>Name</th>
+                                        <th>Category</th>
                                     <th>Phone</th>
                                     <th>Address</th>
                                     <th>Details</th>
@@ -38,23 +38,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                    {% for case in cases %}
                                     <tr>
-                                        <td><a href="allcases.php">id</a></td>
-                                        <td>2023-01-10 15:19:09</td>
-                                        <td>test</td>
-                                        <td>700000000</td>
-                                        <td>123 Nairobi</td>
-                                        <td>test</td>
+                                        <td><a href="allcases.php">{{case.id}}</a></td>
+                                        <td>{{case.date}}</td>
+                                        <td>{{case.category.name}}</td>
+                                        <td>{{case.user.phone_number}}</td>
+                                        <td>{{case.user.address}}</td>
+                                        <td>{{case.user.description}}</td>
 
                     
                                             <!-- <td><span class="label label-success"> Closed </span></td> -->
-                                        
-                                            <td><span class="label label-danger"> Active </span></td>
+                                            {% if case.closed %}
+                                                <td><span class="label label-success"> Closed </span></td>
+                                            {% else %}
+                                                <td><span class="label label-danger"> Active </span></td>
+                                            {% endif %}
                                         
 
                                     </tr>
-                        
+                                    {% endfor %}
 
                             </tbody>
 
