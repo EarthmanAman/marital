@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+</head>
+
+<body>
+  <!-- partial:index.partial.html -->
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+      <h2 class="active"> MyPlan USER SIGN UP</h2>
+
+      {% if error %}
+            <div style="background: pink;  padding: 20px">
+            <strong>Error!</strong> {{error}}
+            </div>
+        {% endif %}
+        {% if success %}
+            <div style="background: lightgreen; padding: 20px">
+            <strong>Success!</strong> {{success}}
+            </div>
+        {% endif %}
+
+      <!-- Login Form -->
+      <form method="POST" action="../controllers/process-user-signup.php">
+
+        <input type="text" id="login" class="fadeIn second" name="fname" placeholder="First Name" required>
+
+        <input type="text" id="login" class="fadeIn second" name="lname" placeholder="Last Name" required>
+
+        <input type="email" id="login" class="fadeIn second" name="email" class="email-area" placeholder="Email" required>
+
+        <input type="tel" id="login" class="fadeIn second" name="pno" placeholder="phone number" minlength="9" maxlength="10" required>
+
+        <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password" required>
+
+        <input type="password" id="password" class="fadeIn third" name="re_password" placeholder="confirm password" required>
+
+        <input type="submit" class="fadeIn fourth" value="SIGN UP">
+      </form>
+      <p>Already have an account <a href="{% url 'accounts:user_login' %}">Login</a></p>
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+
+      </div>
+
+    </div>
+  </div>
+  <!-- partial -->
+
+
+
+
+
+</body>
+
+</html>

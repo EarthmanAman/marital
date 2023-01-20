@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+</head>
+
+<body>
+  <!-- partial:index.partial.html -->
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+      <h2 class="active"> MyPlan USER LOGIN </h2>
+        {% if error %}
+            <div style="background: pink;  padding: 20px">
+            <strong>Error!</strong> {{error}}
+            </div>
+        {% endif %}
+        {% if success %}
+            <div style="background: lightgreen; padding: 20px">
+            <strong>Success!</strong> {{success}}
+            </div>
+        {% endif %}
+
+      <!-- Login Form -->
+      <form method="POST" action="">
+        {% csrf_token %}
+
+        <input type="email" id="login" class="fadeIn second" name="email" placeholder="Email" required>
+
+        <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password" required>
+
+        <input type="submit" class="fadeIn fourth" value="Log In">
+
+      </form>
+      <p>Don't have an account? <br /> <a href="{% url 'accounts:user_sign_up' %}">sign-up</a></p>
+
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+
+      </div>
+
+    </div>
+  </div>
+  <!-- partial -->
+
+
+
+
+
+</body>
+
+</html>
