@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 
 def admin_login(request):
     template_name = "./admin_login.html"
@@ -22,3 +23,8 @@ def user_login(request):
 def user_sign_up(request):
     template_name = "./user_sign_up.html"
     return render(request, template_name)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('main:index')

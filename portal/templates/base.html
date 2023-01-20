@@ -39,8 +39,8 @@
     <script src="{% static 'sweetaleart/sweetalert.min.js' %}"></script>
     <link href="{% static 'sweetaleart/sweetalert.min.css' %}" rel="stylesheet" type="text/css">
 
-    <link href="{% static 'assets/css/modal.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/modal.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -123,7 +123,7 @@
                                         </div>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="../logout.php" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="{% url 'accounts:logout' %}" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
