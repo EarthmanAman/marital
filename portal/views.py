@@ -16,3 +16,8 @@ def report(request):
 def allcases(request):
     template_name = "./allcases.html"
     return render(request, template_name)
+
+@login_required
+def closedcases(request):
+    template_name = "./closedcases.html"
+    return render(request, template_name)

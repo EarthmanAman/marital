@@ -51,7 +51,7 @@
             <!-- Logo -->
             <a href="{% url 'main:index' %}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>PL</b>AN</span>
+                <span class="logo-mini"><b>MyPlan</b></span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg"><b>MyPlan</b></span>
             </a>
@@ -176,7 +176,7 @@
                             <li><a href="{% url 'portal:dashboard' %}"><i class="fa fa-circle-o"></i> Dashboard</a></li>
                             <li><a href="{% url 'portal:report' %}"><i class="fa fa-circle-o"></i> Report </a></li>
                             <li><a href="{% url 'portal:allcases'%}"><i class="fa fa-circle-o"></i> All Cases</a></li>
-                            <li><a href="closedcases.php"><i class="fa fa-circle-o"></i> Closed Cases</a></li>
+                            <li><a href="{% url 'portal:closedcases'%}"><i class="fa fa-circle-o"></i> Closed Cases</a></li>
 
                         </ul>
                     </li>
