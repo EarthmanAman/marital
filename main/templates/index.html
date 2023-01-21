@@ -103,7 +103,8 @@
 
           <div class="col-lg-8 mt-5 mt-lg-0">
 
-            <form action="controllers/save_incident.php" method="post" role="form" class="php-email-form">
+            <form action="" method="post" role="form" enctype="multipart/form-data">
+              {% csrf_token %}
               <!-- <div class="row">
                 <div class="col-md-6 form-group">
                   <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -125,8 +126,11 @@
               <div class="form-group mt-3">
                 <select class="form-select" name="category" aria-label="Default select example">
                   <option selected>----Select Incident Category -----</option>
-                  <option value="1">Domestic Violence</option>
-                  <option value="2">Child Abuse</option>
+
+                  {% for category in categories %}
+                    <option value="{{category.name}}">{{category.name}}</option>
+                  {% endfor %}
+                  
 
                 </select>
               </div>
@@ -135,15 +139,15 @@
               </div>
 
               <div class="form-group mt-3">
-                <input class="form-control" name="files"placeholder="Files" type="file" multiple></textarea>
+                <input class="form-control" name="files" placeholder="Files" type="file" multiple></textarea>
               </div>
 
-              <div class="my-3">
+              <!-- <div class="my-3">
                 <div class="loading">Loading</div>
                 <div class="error-message"></div>
                 <div class="sent-message">Your message has been sent. Action will be taken ASAP. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
+              </div> -->
+              <div class="text-center mt-3"><button type="submit" class="btn btn-primary">Send Message</button></div>
             </form>
 
           </div>

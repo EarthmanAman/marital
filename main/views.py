@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from . models import Case, Category
+from django.shortcuts import render, redirect
+from . models import Case, Category, Media
 
 def index(request):
     template_name = "./index.html"
@@ -17,4 +17,23 @@ def index(request):
         "latest": total.order_by("-pk")[:10],
         "categories": categories
     }
+
+    if request.method == "POST":
+        category = request.POST.get("category")
+        print(category)
+        category = categories.filter(name=category)
+        
+        if category.exists():
+            print("Heree")
+            address = request.POST.get("address")
+            message = request.POST.get("message")
+            files = request.FILES.getlist("files")
+            incident = Case.objects.create(category=category.last(), address=address, description=message, media=files)
+            for file in files:
+                media = Media.objects.create(file=file, case=incident)
+
+            context["active"] += 1
+            context["total"] += 1
+            context["pending"] += 1
+
     return render(request, template_name, context)
