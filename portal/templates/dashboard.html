@@ -112,7 +112,7 @@
 
                                             {% for case in latest %}
                                             <tr>
-                                                <td><a href="allcases.php">{{case.id}}</a></td>
+                                                <td><a href="{% url 'portal:casedetails' case.id %}">{{case.id}}</a></td>
                                                 <td>{{case.date}}</td>
                                                 {% if case.user %}
                                                     <td>{{case.user.phone_number}}</td>

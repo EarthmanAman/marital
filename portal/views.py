@@ -70,3 +70,12 @@ def closedcases(request):
         "cases":cases
     }
     return render(request, template_name, context)
+
+@login_required
+def casedetails(request, case_id):
+    template_name = "./casedetails.html"
+    case = Case.objects.get(pk=int(case_id))
+    context = {
+        "case":case
+    }
+    return render(request, template_name, context)
