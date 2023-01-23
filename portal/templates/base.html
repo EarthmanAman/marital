@@ -178,7 +178,9 @@
                         <ul class="active treeview-menu">
                             <li><a href="{% url 'portal:dashboard' %}"><i class="fa fa-circle-o"></i> Dashboard</a></li>
                             <li><a href="{% url 'portal:report' %}"><i class="fa fa-circle-o"></i> Report </a></li>
+                            {% if request.user.is_superuser %}
                             <li><a href="{% url 'portal:allcases'%}"><i class="fa fa-circle-o"></i> All Cases</a></li>
+                            {% endif %}
                             <li><a href="{% url 'portal:closedcases'%}"><i class="fa fa-circle-o"></i> Closed Cases</a></li>
 
                         </ul>

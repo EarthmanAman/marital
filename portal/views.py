@@ -5,7 +5,10 @@ from main.models import Category, Case, Media
 @login_required
 def dashboard(request):
     template_name = "./dashboard.html"
-    total = Case.objects.filter(user=request.user)
+    if request.user.is_superuser:
+        total = Case.objects.all()
+    else:
+        total = Case.objects.filter(user=request.user)
     active = total.filter(closed=False)
     resolved = total.filter(closed=True)
     # pending = total.filter(status="p")
@@ -23,7 +26,10 @@ def dashboard(request):
 @login_required
 def report(request):
     template_name = "./report.html"
-    total = Case.objects.filter(user=request.user)
+    if request.user.is_superuser:
+        total = Case.objects.all()
+    else:
+        total = Case.objects.filter(user=request.user)
     active = total.filter(closed=False)
     resolved = total.filter(closed=True)
     # pending = total.filter(status="p")
@@ -60,7 +66,7 @@ def report(request):
 @login_required
 def allcases(request):
     template_name = "./allcases.html"
-    cases = Case.objects.filter(user=request.user).order_by("-pk")
+    cases = Case.objects.all().order_by("-pk")
     context = {
         "cases":cases
     }
@@ -69,7 +75,10 @@ def allcases(request):
 @login_required
 def closedcases(request):
     template_name = "./closedcases.html"
-    cases = Case.objects.filter(user=request.user).filter(closed=True)
+    if request.user.is_superuser:
+        cases = Case.objects.all().filter(closed=True)
+    else:
+        cases = Case.objects.filter(user=request.user).filter(closed=True)
     context = {
         "cases":cases
     }
