@@ -29,7 +29,7 @@ def user_login(request):
             login(request, user)
             return redirect('portal:dashboard')
         else:
-            return render(request, template_name, {'error': 'Invalid login credentials'})
+            return render(request, template_name, {'error': 'Invalid login credentials.'})
     else:
         return render(request, template_name)
 
