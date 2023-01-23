@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from main.models import Category, Case
 
@@ -39,10 +39,11 @@ def report(request):
     if request.method == "POST":
         category = request.POST.get("category")
         message = request.POST.get("message")
+        address = request.POST.get("address")
         user = request.user
         categories = Category.objects.filter(name=category)
         if categories.exists():
-            case = Case.objects.create(user=user, category=categories.last(), description=message)
+            case = Case.objects.create(user=user, address=address, category=categories.last(), description=message)
             context["active"] += 1
             context["total"] += 1
             context["success"] = True
@@ -75,7 +76,19 @@ def closedcases(request):
 def casedetails(request, case_id):
     template_name = "./casedetails.html"
     case = Case.objects.get(pk=int(case_id))
+    if request.method == "POST":
+        case.action = request.POST.get("action")
+        case.closed = True
+        case.save()
     context = {
         "case":case
     }
     return render(request, template_name, context)
+
+@login_required
+def unresolved(request, case_id):
+    case = Case.objects.get(id=case_id)
+    case.closed = False
+    case.action = None
+    case.save()
+    return redirect("portal:casedetails", case_id=case.id)

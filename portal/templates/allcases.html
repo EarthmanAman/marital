@@ -39,7 +39,7 @@
                             <tbody>
                                     {% for case in cases %}
                                     <tr>
-                                        <td><a href="allcases.php">{{case.id}}</a></td>
+                                        <td><a href="{% url 'portal:casedetails' case.id %}">{{case.id}}</a></td>
                                         <td>{{case.date}}</td>
                                         <td>{{case.category.name}}</td>
                                         <td>{{case.user.phone_number}}</td>

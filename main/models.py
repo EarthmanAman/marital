@@ -27,7 +27,7 @@ class Case(models.Model):
 
 class Media(models.Model):
     case = models.ForeignKey(Case, on_delete=models.SET_NULL, null=True, blank=True)
-    file = models.ImageField(upload_to='images/')
+    file = models.FileField(upload_to='images/')
 
     def __str__(self):
         return self.case.description

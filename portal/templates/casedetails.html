@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block custom_styles%}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+
 {% block content %}
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -103,23 +108,61 @@
                             <span class="description"><b>Reported on</b> - {{case.date}}</span>
                         </div>
                         <div>
+                          {% if request.user.is_superuser %}
+                            {% if case.closed %}
+                              <a href="{% url 'portal:unresolved' case.id %}" class="btn btn-primary">
+                              Unresolve
+                              </a>
+                            {% else %}
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                              Resolve
+                            </button>
+                            {% endif %}
+                          {% endif %}
                             {% if case.closed %}
                                 <button class="btn btn-success">Closed</button>
                             {% else %}
                                 <button class="btn btn-danger">Active</button>
                             {% endif %}
+
                         </div>
                     </div>
                   <!-- /.user-block -->
                     <h4><b>CASE FILES</b></h4>
 
-                    <div class="row">
+                    <div class="row" >
                         {% for media in case.media_set.all%}
-                            <div class="col-4">
-                                <img src="{{media.url}}" />
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                  <img src="{{media.file.url}}" style="width: 100%;"/>
+                            
+                                
                             </div>
                         {% endfor %}
 
+                    </div>
+
+                    <div style="margin-top: 30px; margin-bottom: 20px;">
+                      <h4><b>DESCRIPTION</b></h4>
+                    </div>
+
+                    <div>
+                      <textarea class="form-control" rows="4"   style="padding :20px; font-size: 18px" disabled>
+                        {{case.description}}
+                      </textarea>
+                    </div>
+
+                    <div style="margin-top: 30px; margin-bottom: 20px;">
+                      <h4><b>Action</b></h4>
+                    </div>
+
+                    <div>
+                      <textarea class="form-control" rows="4"   style="padding :20px; font-size: 18px" disabled>
+                        {% if case.action %}
+                        {{case.action}}
+                        {% else %}
+                        None
+                        {% endif %}
+                      </textarea>
                     </div>
 
                 </div>
@@ -130,7 +173,7 @@
                   
                 </div>
                 <!-- /.post -->
-
+                
                 <!-- Post -->
                 
                 <!-- /.post -->
@@ -149,4 +192,40 @@
     <!-- /.content -->
   </div>
 
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="POST">
+          {% csrf_token%}
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">What action did you take?</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="action"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Resolve</button>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+  
+
 {% endblock %}
+
+{% block custom_js %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+{% endblock%}
