@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Sign up</title>
   <link rel="stylesheet" href="{% static 'css/login.css' %}">
 
 </head>
@@ -18,7 +18,7 @@
 
       {% if error %}
             <div style="background: pink;  padding: 20px">
-            <strong>Error!</strong> {{error}}
+              {{error}}
             </div>
         {% endif %}
         {% if success %}
@@ -28,19 +28,20 @@
         {% endif %}
 
       <!-- Login Form -->
-      <form method="POST" action="../controllers/process-user-signup.php">
+      <form method="POST" action="">
+        {% csrf_token %}
+        <input type="text" id="login" class="fadeIn second" name="first_name" placeholder="First Name" required value="{{first_name}}">
 
-        <input type="text" id="login" class="fadeIn second" name="fname" placeholder="First Name" required>
+        <input type="text" id="login" class="fadeIn second" name="last_name" placeholder="Last Name" required value="{{last_name}}">
 
-        <input type="text" id="login" class="fadeIn second" name="lname" placeholder="Last Name" required>
+        <input type="email" id="login" class="fadeIn second" name="email" class="email-area" placeholder="Email" required value="{{email}}">
 
-        <input type="email" id="login" class="fadeIn second" name="email" class="email-area" placeholder="Email" required>
-
-        <input type="tel" id="login" class="fadeIn second" name="pno" placeholder="phone number" minlength="9" maxlength="10" required>
+        <input type="tel" id="login" class="fadeIn second" name="phone_number" placeholder="phone number" value="{{phone_number}}" minlength="9" maxlength="10" required>
+        <input type="text" id="login" class="fadeIn second" name="address" placeholder="address" required value="{{address}}">
 
         <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password" required>
 
-        <input type="password" id="password" class="fadeIn third" name="re_password" placeholder="confirm password" required>
+        <input type="password" id="password" class="fadeIn third" name="confirm_password" placeholder="confirm password" required>
 
         <input type="submit" class="fadeIn fourth" value="SIGN UP">
       </form>

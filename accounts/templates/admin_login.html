@@ -17,8 +17,8 @@
       <h2 class="active"> MyPlan ADMIN LOGIN </h2>
 
       <!-- Login Form -->
-      <form method="POST" action="./controllers/processlogin.php">
-
+      <form method="POST" action="">
+        {% csrf_token %}
         <input type="email" id="login" class="fadeIn second" name="email" placeholder="Email" required>
 
         <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password" required>

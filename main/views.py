@@ -20,11 +20,9 @@ def index(request):
 
     if request.method == "POST":
         category = request.POST.get("category")
-        print(category)
         category = categories.filter(name=category)
         
         if category.exists():
-            print("Heree")
             address = request.POST.get("address")
             message = request.POST.get("message")
             files = request.FILES.getlist("files")
