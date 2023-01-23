@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from main.models import Category, Case
+from main.models import Category, Case, Media
 
 @login_required
 def dashboard(request):
@@ -40,10 +40,13 @@ def report(request):
         category = request.POST.get("category")
         message = request.POST.get("message")
         address = request.POST.get("address")
+        files = request.FILES.getlist("files")
         user = request.user
         categories = Category.objects.filter(name=category)
         if categories.exists():
             case = Case.objects.create(user=user, address=address, category=categories.last(), description=message)
+            for file in files:
+                media = Media.objects.create(file=file, case=case)
             context["active"] += 1
             context["total"] += 1
             context["success"] = True

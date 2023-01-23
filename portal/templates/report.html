@@ -92,7 +92,7 @@
                     {% endif %}
                 </div>
                 {% endif %}
-                <form action="" method="post" role="form" class="php-email-form" style=" width: 70%; margin: auto">
+                <form action="" method="post" role="form" class="php-email-form" style=" width: 70%; margin: auto" enctype="multipart/form-data">
                     {% csrf_token %}
                     <!-- <div class="row">
                         <div class="col-md-6 form-group">
@@ -126,7 +126,10 @@
                         <textarea class="form-control" name="message" rows="5" placeholder="Message" style="padding :20px; font-size: 18px" required></textarea>
                     </div>
 
-                    
+                    <div class="form-group mt-3">
+                        <input class="form-control" name="files" placeholder="Files" type="file" multiple></textarea>
+                      </div>
+
                     <div class="text-center"><button type="submit" style="padding :20px; font-size: 18px; border-radius:5px ">Send Message</button></div>
                 </form>
 
