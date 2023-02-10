@@ -2,17 +2,29 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from main.models import Category, Case, Media
 
+# A decorator to allow only logged in user to access the view
 @login_required
 def dashboard(request):
+
+    # template
     template_name = "./dashboard.html"
-    if request.user.is_superuser:
+
+    # If user is admin fetch all cases else fetch cases only for the particular user
+    if request.user.is_superuser or request.user.is_staff:
+        # Fetch all cases
         total = Case.objects.all()
     else:
+        # Filter cases by user
         total = Case.objects.filter(user=request.user)
+    
+    # Filter active cases
     active = total.filter(closed=False)
+
+    #Filter closed cases
     resolved = total.filter(closed=True)
     # pending = total.filter(status="p")
 
+    # Information to be passed to the frontend
     context = {
         "active":active.count(),
         "resolved":resolved.count(),

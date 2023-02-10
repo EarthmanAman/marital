@@ -29,7 +29,9 @@ def index(request):
         "pending": active.count(),
         "total": total.count(),
         "latest": total.order_by("-pk")[:10],
-        "categories": categories
+        "categories": categories,
+        "success": False,
+        "error": False
     }
 
     # If user post a incident handle it else display the home page
@@ -56,5 +58,8 @@ def index(request):
             context["active"] += 1
             context["total"] += 1
             context["pending"] += 1
+            context["success"] = True
+        else:
+            context["error"] = True
 
     return render(request, template_name, context)

@@ -64,7 +64,13 @@
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
       <div class="container">
+        {% if error %}
+              <div class="alert alert-danger danger">The category you selected is not recognized in the database. Contact admin</div>
+            {% endif %}
 
+            {% if success %}
+              <div class="alert alert-success success">Case Report Successfully</div>
+            {% endif %}
         <div class="section-title">
           <h2>Report An Incident</h2>
           <p>Enter Details Below to report anonymously</p>
@@ -102,6 +108,13 @@
           </div>
 
           <div class="col-lg-8 mt-5 mt-lg-0">
+            {% if error %}
+              <div class="alert alert-danger danger">The category you selected is not recognized in the database. Contact admin</div>
+            {% endif %}
+
+            {% if success %}
+              <div class="alert alert-success success">Case Report Successfully</div>
+            {% endif %}
 
             <form action="" method="post" role="form" enctype="multipart/form-data">
               {% csrf_token %}
