@@ -104,6 +104,9 @@
                                             <th>Phone</th>
                                             <th>Address</th>
                                             <th>Status</th>
+                                            
+                                            <th>Update</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -129,7 +132,12 @@
                                                 {% else %}
                                                 <td><span class="label label-danger">Active</span></td>
                                                 {% endif %}
-                                               
+                                                
+                                                {% if case.user == request.user%}
+                                                <td><a href="{% url 'portal:update_case' case.id %}" class="btn btn-primary">Update</a></td>
+                                                {% else %}
+                                                <td></td>
+                                                {% endif %}
 
                                             </tr>
                                             {% endfor %}
