@@ -33,6 +33,7 @@ class Case(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
+    uuid     = models.CharField(max_length=10, null=True)
     date = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
     closed = models.BooleanField(default=False)

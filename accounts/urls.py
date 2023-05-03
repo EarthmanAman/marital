@@ -2,7 +2,7 @@
 from django.urls import path
 
 # Importing views
-from . views import admin_login, user_login, user_sign_up, logout_view
+from . views import admin_login, user_login, user_sign_up, logout_view, ActivateAccount
 
 # Linking with main url 
 app_name = "accounts"
@@ -23,4 +23,6 @@ urlpatterns = [
     # logout url it calls the logout_view view
     # http://127.0.0.1:8000/accounts/logout/
     path('logout/', logout_view, name='logout'),
+
+    path('activate/<uidb64>/<token>/', ActivateAccount.as_view(), name='activate'),
 ]

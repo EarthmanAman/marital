@@ -48,7 +48,11 @@
         <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
           <h1>Do not Suffer in Silence</h1>
           <h2>Eliminate Domestic Violence. Promote Women in Society</h2>
-          <div><a href="#contact" class="btn-get-started scrollto">Report Incident</a></div>
+          <div style="display: flex; align-items: center;" >
+            <div><a href="#contact" class="btn-get-started scrollto">Report Incident</a></div>
+            <div><a href="{% url 'main:track_case'%}" class="btn btn-secondary" style="margin-top: 25px; margin-left:10px">Track Case</a></div>
+          </div>
+          
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img">
           <img src="{% static 'img/hero-img.png' %}" class="img-fluid" alt="">
@@ -69,7 +73,12 @@
             {% endif %}
 
             {% if success %}
-              <div class="alert alert-success success">Case Report Successfully</div>
+              <div class="alert alert-success success">
+                <p>Case Report Successfully.</p>
+                <p>Use the code below in the track anonymous case section. To view progress of the case.</p>
+
+                <h2 style="text-align: center;">{{uuid}}</h2>
+              </div>
             {% endif %}
         <div class="section-title">
           <h2>Report An Incident</h2>

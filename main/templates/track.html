@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyPlan</title>
+
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Dosis:300,400,500,,600,700,700i|Lato:300,300i,400,400i,700,700i" rel="stylesheet">
+
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <style>
+        .list-group-item{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .pull-right {
+            margin-right: 40px
+        }
+    </style>
+</head>
+<body>
+    <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <a href="{% url 'main:index' %}" class="logo nav-link scrollto">MyPlan</a>
+
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto" href="{% url 'accounts:user_login' %}">User Login</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'accounts:admin_login' %}">Admin Login</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header>
+  <!-- End Header -->
+  <main id="main">
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact" style="margin-top: 50px">
+      <div class="container">
+        <div class="section-title">
+          <h2>Track An Incident</h2>
+          <p>Enter Case Track Below to track it</p>
+          <sub>If you have an account login to view your cases
+            <a href="{% url 'accounts:user_login'%}" class="btn-get-started scrollto">here</a>
+          </sub>
+        </div>
+
+
+
+        <div class="mt-2" style="padding-left: 100px; padding-right: 100px">
+
+
+          <div class="mt-5 mt-lg-0">
+           
+
+            <form action="" method="post" role="form" >
+              {% csrf_token %}
+             
+              <div class="form-group mt-3">
+                <input type="text" class="form-control" name="code" id="code" placeholder="Enter the case code" required>
+              </div>
+              
+
+              <div class="text-center mt-3">
+                <a href="{% url 'main:index' %}" class="btn btn-secondary">Back Home</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+              
+            </form>
+
+          </div>
+
+          {% if case %}
+          <h3 class="profile-username text-center mt-5" >CASE DETAILS </h3>
+
+              
+
+          <ul class="list-group list-group-unbordered">
+            <li class="list-group-item">
+                <b>Status</b>
+                {% if case.closed %}
+                    <a class="pull-right btn btn-success">Closed</a>
+                {% else %}
+                    <a class="pull-right btn btn-danger">Active</a>
+                {% endif %}
+                
+            </li>
+
+            <li class="list-group-item">
+                <b>Code</b>
+                <a class="pull-right">{{case.uuid}}</a>
+            </li>
+
+            <li class="list-group-item">
+                <b>Address</b>
+                <a class="pull-right">{{case.address}}</a>
+            </li>
+
+            <li class="list-group-item">
+                <b>Description</b>
+                <a class="pull-right">{{case.description}}</a>
+            </li>
+
+            <li class="list-group-item">
+                <b>Action</b>
+                <a class="pull-right">{{case.action}}</a>
+            </li>
+
+            <!-- <li class="list-group-item">
+              <b>Reported On</b> <a class="pull-right">{{case.date}}</a>
+            </li>
+            <li class="list-group-item">
+                {% if case.closed %}
+                    <b>Status</b> <a class="pull-right">Closed</a>
+                {% else %}
+                    <b>Status</b> <a class="pull-right">Active</a>
+                {% endif %}
+            </li> -->
+           
+          </ul>
+          
+          {% elif error %}
+          <div class="alert alert-warning mt-5">Wrong Code Submitted</div>
+          {%endif%}
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+
+  <script src="{% static 'vendor/purecounter/purecounter.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

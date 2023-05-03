@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+import uuid
 from . models import Case, Category, Media
 
 def index(request):
@@ -31,7 +32,8 @@ def index(request):
         "latest": total.order_by("-pk")[:10],
         "categories": categories,
         "success": False,
-        "error": False
+        "error": False,
+        "uuid": None,
     }
 
     # If user post a incident handle it else display the home page
@@ -48,7 +50,8 @@ def index(request):
             files = request.FILES.getlist("files")
 
             # Creating a case
-            incident = Case.objects.create(category=category.last(), address=address, description=message, media=files)
+            uuid_str = str(uuid.uuid4())[:7]
+            incident = Case.objects.create(uuid=uuid_str, category=category.last(), address=address, description=message, media=files)
             
             # Attach case files
             for file in files:
@@ -59,7 +62,29 @@ def index(request):
             context["total"] += 1
             context["pending"] += 1
             context["success"] = True
+            context["uuid"] = uuid_str
         else:
             context["error"] = True
+
+    return render(request, template_name, context)
+
+
+def track_case(request):
+    template_name = "./track.html"
+    context = {
+        "case": None,
+        "uuid": "",
+        "error": None,
+    }
+
+    if request.method == "POST":
+        code = request.POST.get("code", None)
+        if code != None:
+            case = Case.objects.filter(uuid=code)
+            if case.exists():
+                context["case"] = case.last()
+            else:
+                context["error"] = True            
+        context["uuid"] = code            
 
     return render(request, template_name, context)
