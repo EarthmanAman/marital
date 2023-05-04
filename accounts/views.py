@@ -100,7 +100,16 @@ def user_sign_up(request):
         # Check if password match
         # If they don't render the signup page with error
         # Else proceed to register the user
-        if password != confirm_password:
+        user = User.objects.filter(email=email)
+        if user.exists():
+            context["first_name"] = first_name
+            context["last_name"] = last_name
+            context["email"] = email
+            context["phone_number"] = phone_number
+            context["address"] = address
+
+            context["error"] = "User already registerd. Please log in."
+        elif password != confirm_password:
             # Updating the information to be passed to template in order to prevent user type everything again
             context["first_name"] = first_name
             context["last_name"] = last_name
