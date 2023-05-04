@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 import uuid
+from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
 from . models import Case, Category, Media
+from accounts.models import AdminPost, CustomUser
 
 def index(request):
     """
@@ -22,6 +25,7 @@ def index(request):
     
     # Fetching all categories from database to be used during reporting
     categories = Category.objects.all()
+    admin_posts = AdminPost.objects.all()
 
     # Information to be passed to the frontend
     context = {
@@ -31,6 +35,7 @@ def index(request):
         "total": total.count(),
         "latest": total.order_by("-pk")[:10],
         "categories": categories,
+        "admin_posts":admin_posts,
         "success": False,
         "error": False,
         "uuid": None,
@@ -48,10 +53,14 @@ def index(request):
             address = request.POST.get("address")
             message = request.POST.get("message")
             files = request.FILES.getlist("files")
+            admin_post = request.POST.get("admin_post")
 
             # Creating a case
+            admin_post = AdminPost.objects.get(id=int(admin_post))
+
+            # Get the first 7 characters of UUID - Case code
             uuid_str = str(uuid.uuid4())[:7]
-            incident = Case.objects.create(uuid=uuid_str, category=category.last(), address=address, description=message, media=files)
+            incident = Case.objects.create(admin_post=admin_post, uuid=uuid_str, category=category.last(), address=address, description=message)
             
             # Attach case files
             for file in files:
@@ -63,6 +72,30 @@ def index(request):
             context["pending"] += 1
             context["success"] = True
             context["uuid"] = uuid_str
+
+            # Fetching all admin in the nearest admin post
+            users = CustomUser.objects.filter(admin_post=admin_post)
+            email_list = []
+
+            #Adding their emails into a list
+            for user in users:
+                email_list.append(user.email)
+
+            if len(email_list) > 0:
+
+                #Formulating an email and sending it
+                current_site = get_current_site(request)
+                domain = current_site.domain
+                url = f"http://{domain}/users/portal/casedetails/{incident.id}"
+                subject = f"CASE {incident.id} - {incident.category.name} : SUBMITTED"
+                message = f"\nDear Admin\n\nA case has been registered in your jurisdiction. Kindly log into the system and take the necessary actions\n\nFollow link below to view the case\n\n{url}\n\nThank you,\nKind Regards."
+                send_mail(
+                    subject= subject,
+                    from_email="hashimathman.info@gmail.com",
+                    message=message,
+                    recipient_list=email_list,
+                    fail_silently=False,
+                )
         else:
             context["error"] = True
 

@@ -1,6 +1,7 @@
 from django.db import models
 # from django.contrib.auth.models import User
 from django.conf import settings
+from accounts.models import AdminPost
 
 User = settings.AUTH_USER_MODEL
 
@@ -32,7 +33,7 @@ class Case(models.Model):
     """
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-
+    admin_post  = models.ForeignKey(AdminPost, on_delete=models.SET_NULL, null=True)
     uuid     = models.CharField(max_length=10, null=True)
     date = models.DateTimeField(auto_now_add=True)
     description = models.TextField()

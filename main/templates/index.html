@@ -67,7 +67,7 @@
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
-      <div class="container">
+      <div class="container" style="text-align: center;">
             {% if error %}
               <div class="alert alert-danger danger">The category you selected is not recognized in the database. Contact admin</div>
             {% endif %}
@@ -145,6 +145,20 @@
               <div class="form-group mt-3">
                 <input type="text" class="form-control" name="address" id="address" placeholder="Address Where the Incident is Occuring" required>
               </div>
+
+              <div class="form-group mt-3">
+                <select class="form-select" name="admin_post" aria-label="Default select example">
+                  <option selected>----Select Closest Help Center To You-----</option>
+
+                  {% for admin_post in admin_posts %}
+                    <option value="{{admin_post.id}}">{{admin_post.name}} - {{admin_post.area}}</option>
+                  {% endfor %}
+                  
+
+                </select>
+              </div>
+
+
               <div class="form-group mt-3">
                 <select class="form-select" name="category" aria-label="Default select example">
                   <option selected>----Select Incident Category -----</option>
@@ -156,6 +170,9 @@
 
                 </select>
               </div>
+
+              
+
               <div class="form-group mt-3">
                 <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
               </div>
