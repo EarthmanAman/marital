@@ -82,7 +82,7 @@ def user_sign_up(request):
     template_name = "./user_sign_up.html"
 
     # Information to be passed to the frontend
-    context = {"first_name":'', "last_name":'', "phone_number":'', "address":'', "error":'', "email":''}
+    context = {"first_name":'', "last_name":'', "phone_number":'', "address":'', "error":'', "email":'', "verification": False}
 
     # Check if method is POST and try to create the user using the information they provided
     # Else render the signup page
@@ -115,9 +115,10 @@ def user_sign_up(request):
 
             # Set password
             user.set_password(password)
-            user.is_active = False
+            user.is_active = False # Make user inactive until verified by email
             user.save()
 
+            # Creating an activation email
             current_site = get_current_site(request)
             subject = 'Activate Your MyPlan Account'
             message = render_to_string('account_activation_email.html', {
@@ -129,7 +130,8 @@ def user_sign_up(request):
             user.email_user(subject, message)
 
             # Redirect to login
-            return redirect("accounts:user_login")
+            # return redirect("accounts:user_login")
+            context["verification"] = True
 
     return render(request, template_name, context)
 
@@ -146,11 +148,14 @@ class ActivateAccount(View):
 
     def get(self, request, uidb64, token, *args, **kwargs):
         try:
+
+            # Get the user from the verification link
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
 
+        # If user exist make the user active and login the user then redirect to dashboard
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()

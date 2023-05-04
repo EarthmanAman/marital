@@ -27,6 +27,12 @@
             </div>
         {% endif %}
 
+        {% if verification %}
+            <div style="background: lightgreen; padding: 20px">
+            <strong>Registration was successful. A verification email has been sent to your email.</strong>
+            </div>
+        {% endif %}
+
       <!-- Login Form -->
       <form method="POST" action="">
         {% csrf_token %}
