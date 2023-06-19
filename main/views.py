@@ -10,7 +10,7 @@ def index(request):
     index view.
     It accept an http request as a parameter and renders the ./admin_login.html
     """
-
+    
     # Template
     template_name = "./index.html"
 
